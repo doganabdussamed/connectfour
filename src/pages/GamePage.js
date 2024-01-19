@@ -13,7 +13,7 @@ const GamePage = () => {
     setCurrentPlayer(Math.random() < 0.5 ? 'computer' : 'player');
   }, []);
 
-  // Sütunun üstündeki boş hücreyi bul ve taşı bırak
+  // Sütunun üstündeki boş hücreyi bul ve taşı bırakk
   const dropPiece = (col) => {
     if (winner === null && board[0][col] === null) {
       const newBoard = [...board];
