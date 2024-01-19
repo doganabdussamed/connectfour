@@ -1,0 +1,66 @@
+/* src/css/GamePage.css */
+.game-container {
+  text-align: center;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.board-container {
+  background-color: #2c3e50;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(7, 60px); /* 7 sütun, her bir hücrenin genişliği */
+  grid-template-rows: repeat(6, 60px); /* 6 satır, her bir hücrenin yüksekliği */
+  grid-gap: 10px; /* Hücreler arasındaki boşluk */
+  justify-content: center;
+  transform: rotate(90deg);
+}
+
+.cell {
+  width: 60px; /* Hücre genişliği */
+  height: 60px; /* Hücre yüksekliği */
+  border: 2px solid #FFFFFF; /* Hücre kenarlık rengi */
+  background-color: #FFFFFF; /* Hücre arka plan rengi */
+  border-radius: 50%; /* Hücre yuvarlaklığı */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.piece {
+  width: 46px; /* Taş genişliği */
+  height: 46px; /* Taş yüksekliği */
+  border-radius: 50%; /* Taş yuvarlaklığı */
+  position: absolute;
+}
+
+.player, .computer {
+  top: 7px; /* Taşların hücre içindeki üst boşluğu */
+  left: 7px; /* Taşların hücre içindeki sol boşluğu */
+}
+
+.player {
+  background-color: #e74c3c; /* Oyuncu taşı rengi */
+}
+
+.computer {
+  background-color: #f1c40f; /* Bilgisayar taşı rengi */
+}
+
+.winner {
+  font-size: 24px;
+  color: green;
+  margin: 20px 0;
+}
