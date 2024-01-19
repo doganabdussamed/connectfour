@@ -13,7 +13,6 @@ const GamePage = () => {
     setCurrentPlayer(Math.random() < 0.5 ? 'computer' : 'player');
   }, []);
 
-  // Sütunun üstündeki boş hücreyi bul ve taşı bırakk
   const dropPiece = (col) => {
     if (winner === null && board[0][col] === null) {
       const newBoard = [...board];
@@ -29,7 +28,6 @@ const GamePage = () => {
     }
   };
 
-  // Bilgisayarın hamlesini gerçekleştir
   const computerMove = () => {
     const validMoves = [];
     for (let col = 0; col < numCols; col++) {
@@ -44,9 +42,7 @@ const GamePage = () => {
     }
   };
 
-  // Kazananı kontrol et
   const checkWinner = (row, col) => {
-    // Satır, sütun ve çaprazlarda aynı rengin dört tane olup olmadığını kontrol et
     if (
       checkLine(row, col, 0, 1) ||
       checkLine(row, col, 1, 0) ||
@@ -57,14 +53,12 @@ const GamePage = () => {
     }
   };
 
-  // Belirli bir yönde dört aynı taşı kontrol et
   const checkLine = (row, col, dRow, dCol) => {
     let count = 0;
     let r = row;
     let c = col;
     const player = board[row][col];
 
-    // İleri yönde kontrol et
     while (r < numRows && r >= 0 && c < numCols && c >= 0 && board[r][c] === player) {
       count++;
       r += dRow;
@@ -74,22 +68,20 @@ const GamePage = () => {
     r = row - dRow;
     c = col - dCol;
 
-    // Geri yönde kontrol et
     while (r < numRows && r >= 0 && c < numCols && c >= 0 && board[r][c] === player) {
       count++;
       r -= dRow;
       c -= dCol;
     }
 
-    return count >= 4; // Dört veya daha fazla aynı taş bulundu mu?
+    return count >= 4;
   };
 
   useEffect(() => {
     if (currentPlayer === 'computer' && winner === null) {
-      // Bilgisayarın hamlesini yapması için biraz bekleyelim
       const delay = setTimeout(() => {
         computerMove();
-      }, 500); // İstediğiniz süreyi ayarlayabilirsiniz
+      }, 500);
       return () => clearTimeout(delay);
     }
   }, [currentPlayer, winner]);
