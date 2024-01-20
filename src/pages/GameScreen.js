@@ -75,6 +75,7 @@ function App() {
       const randomColumn = availableColumns[Math.floor(Math.random() * availableColumns.length)];
       let newBoard = placeDisc(board, randomColumn, AI);
       setBoard(newBoard);
+      console.log(newBoard);
       setCurrentPlayer(PLAYER);
       checkWinner(newBoard);
     }
@@ -158,12 +159,18 @@ function App() {
   
   return (
     <div className="App">
-      <h1>Connect Four</h1>
+      <h1 style={{color:"white"}}>Connect Four</h1>
       <br />
-      {winner && <h2>Winner: {winner === PLAYER ? username : 'AI'}</h2>}
+      {winner && <h2 style={{color:"white"}}>Winner: {winner === PLAYER ? username : 'AI'}</h2>}
+     
       <div className="board" style={{ boxShadow: `0px 0px 150px ${currentPlayer === PLAYER ? userColor : computerColor}` }}>
         {board.map((row, rowIndex) => row.map((cell, columnIndex) => renderCell(cell, rowIndex, columnIndex)))}
       </div>
+    <div>
+      <button onClick={() => window.location.reload()} className="button button-reset">Reset Game</button>
+      
+    </div>
+
     </div>
   );
 }

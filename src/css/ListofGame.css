@@ -1,4 +1,7 @@
 /* ListofGame.css */
+body {
+    background-color: #070505; /* Arka plan rengini istediğiniz renk koduyla değiştirin */
+}
 
 .scoreboard {
     background: #333;
@@ -8,7 +11,7 @@
     padding: 20px;
     box-sizing: border-box;
     color: hsl(0, 0%, 100%);
-    box-shadow: rgb(55, 235, 0) 0px 0px 700px;
+    box-shadow: rgb(66, 81, 215) 0px 0px 700px;
   }
 
   
