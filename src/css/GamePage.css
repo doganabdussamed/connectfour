@@ -1,7 +1,6 @@
 /* src/css/GamePage.css */
 .game-container {
   text-align: center;
-  margin-top: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -9,10 +8,10 @@
 }
 
 .board-container {
-  background-color: #2c3e50;
-  padding: 30px;
+  background-color: hsl(210, 29%, 24%);
+  width: 100%;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 10px rgba(241, 9, 9, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,11 +19,11 @@
 
 .board {
   display: grid;
-  grid-template-columns: repeat(7, 60px); /* 7 sütun, her bir hücrenin genişliği */
-  grid-template-rows: repeat(6, 60px); /* 6 satır, her bir hücrenin yüksekliği */
+  grid-template-columns: repeat(6, 60px); /* 7 sütun, her bir hücrenin genişliği */
   grid-gap: 10px; /* Hücreler arasındaki boşluk */
   justify-content: center;
-  transform: rotate(90deg) translate3d(30px, -15px, 0px); /* Tahtayı 180 derece döndür ve ortala */
+  margin: 5px;
+ transform: rotate(90deg) translate3d(30px , -30px, 0px);
 }
 
 @keyframes dropPieceAnimation {
@@ -42,17 +41,17 @@
   border: 2px solid #FFFFFF; /* Hücre kenarlık rengi */
   background-color: #FFFFFF; /* Hücre arka plan rengi */
   border-radius: 50%; /* Hücre yuvarlaklığı */
-  /* position: relative; */
-  display: flex;
   align-items: center;
   justify-content: center;
+  margin: 10px;
+
 }
 
 .piece {
   width: 46px; /* Taş genişliği */
   height: 46px; /* Taş yüksekliği */
   border-radius: 50%; /* Taş yuvarlaklığı */
-  position: absolute;
+  position: static;
   animation: dropPieceAnimation 1.0s ease forwards;
 
 }
@@ -76,6 +75,3 @@
   margin: 20px 0;
 }
 
-.row {
-  padding: 10px;
-}
