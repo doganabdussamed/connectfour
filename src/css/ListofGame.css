@@ -1,43 +1,87 @@
-/* ListofGamesScreen.css */
+/* ListofGame.css */
 
-.container {
-    max-width: 600px;
-    margin: 0 auto;
+.scoreboard {
+    background: #333;
+    width: 50%;
+    margin: 6% auto;
+    border-radius: 15px;
     padding: 20px;
+    box-sizing: border-box;
+    color: hsl(0, 0%, 100%);
+    box-shadow: rgb(55, 235, 0) 0px 0px 700px;
+  }
+
+  
+  .header h1 {
+    text-align: center;
+    font-size: 1.5em;
+    letter-spacing: 3px;
+  }
+  
+  table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+  }
+  
+  table thead {
+    background-color: #222;
+  }
+  
+  table thead th {
+    padding: 10px;
+    border-bottom: solid 2% #444;
+  }
+  
+  table tbody td {
+    padding: 10px;
+    border-bottom: 1px solid #444;
     text-align: center;
   }
   
-  .winners-list {
-    list-style: none;
-    padding: 0;
-    margin-top: 20px;
+  table tbody tr:last-child td {
+    border-bottom: none;
   }
   
-  .winners-list li {
-    background-color: #f0f0f0;
-    border: 1px solid #ddd;
-    padding: 10px 15px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  .button {
+    display: block;
+    width: 200px; /* Sabit genişlik */
+    background-color: #007bff; /* Mavi arka plan rengi */
+    color: white; /* Beyaz yazı rengi */
+    border: none; /* Kenarlık kaldır */
+    border-radius: 5px; /* Kenar yuvarlaklığı */
+    transition: background-color 0.2s, transform 0.2s; /* Geçiş efektleri */
+    text-align: center; /* Metni ortala */
+    text-decoration: none; /* Link alt çizgisini kaldır */
+    font-weight: bold; /* Kalın yazı tipi */
+    font-size: medium;
+}
+  
+  .button:hover {
+    background-color: #0056b3; /* Hover rengi */
+    transform: scale(1.05); /* Hafifçe büyüt */
   }
   
-  button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin-top: 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s;
+  .button-reset {
+    background-color: #ef5350; /* Kırmızı arka plan rengi */
+    float: right    ;
+    
   }
   
-  button:hover {
-    background-color: #0056b3;
+  .button-start {
+    background-color: #007bff; /* Mavi arka plan rengi */
+    float: left;
+  }
+  .button-start:hover {
+    background-color: #46c442; /* Hover rengi */
+  }
+
+  .button-reset:hover {
+    background-color: #c49742; /* Hover rengi */
   }
   
-  .link-button {
+  
+  a {
     text-decoration: none;
     color: white;
   }
