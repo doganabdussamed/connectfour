@@ -1,18 +1,18 @@
 // src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import LoginPage from './pages/LoginPage';
-import GameOptionPage from './pages/GameOptionPage';
-import GamePage from './pages/GamePage';
+import GameCreationScreen from './pages/GameCreationScreen';
+import ListofGamesScreen from './pages/ListofGamesScreen';
+import GameScreen from './pages/GameScreen';
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/game-option" element={<GameOptionPage />} />
-        <Route path="/game" element={<GamePage />} />
+        <Route path="/" element={<Navigate to="/GameCreation" />} />
+        <Route path="/GameCreation" element={<GameCreationScreen />} />
+        <Route path="/ListofGames" element={<ListofGamesScreen />} />
+        <Route path="/game" element={<GameScreen />} />
       </Routes>
     </Router>
   );

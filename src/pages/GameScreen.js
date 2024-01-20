@@ -16,23 +16,23 @@ function App() {
   const [computerColor, setComputerColor] = useState('#000000'); // Varsayılan renk siyah
 
   useEffect(() => {
-    // localStorage'dan değerleri al
     const storedUsername = localStorage.getItem('username');
     const storedUserColor = localStorage.getItem('userColor');
     const storedComputerColor = localStorage.getItem('computerColor');
 
-    // Eğer değerler varsa, state'i güncelle
     if (storedUsername) setUsername(storedUsername);
     if (storedUserColor) setUserColor(storedUserColor);
     if (storedComputerColor) setComputerColor(storedComputerColor);
+  }, []);
 
-    // Konsola loglama
-    console.log('Username:', storedUsername);
-    console.log('User Color:', storedUserColor);
-    console.log('Computer Color:', storedComputerColor);
-
-    console.log('Current Player:', currentPlayer);
-  }, [currentPlayer]);
+  useEffect(() => {
+    if (winner) {
+      const winnerName = winner === PLAYER ? username : 'AI';
+      const winners = JSON.parse(localStorage.getItem('winners')) || [];
+      winners.push(winnerName);
+      localStorage.setItem('winners', JSON.stringify(winners));
+    }
+  }, [winner, username]);
 
   function createBoard() {
     return Array(ROWS).fill(null).map(() => Array(COLUMNS).fill(EMPTY));
@@ -48,7 +48,7 @@ function App() {
     checkWinner(newBoard);
 
     if (nextPlayer === AI) {
-      setTimeout(() => aiMove(), 800); // Bilgisayarın hamlesi için kısa bir gecikme
+      setTimeout(() => aiMove(), 800);
     }
   }
 
@@ -79,6 +79,7 @@ function App() {
       checkWinner(newBoard);
     }
   }
+
   function checkWinner(board) {
     // Yatay kontrol
     for (let row = 0; row < ROWS; row++) {
@@ -133,22 +134,17 @@ function App() {
     }
   }
   
-
   function renderCell(cell, rowIndex, columnIndex) {
     let cellClass = cell === EMPTY ? 'cell empty' : cell === PLAYER ? 'cell player' : 'cell ai';
     let cellStyle = {};
   
     if (cell === PLAYER) {
-      // PLAYER için userColor'ı arka plan rengi olarak ayarla
       cellStyle.backgroundColor = userColor;
       cellClass += ' falling';
-
     } else if (cell !== EMPTY) {
-      // PLAYER olmayan ve EMPTY olmayan hücreler için bir renk ayarla
       cellStyle.backgroundColor = computerColor;
       cellClass += ' falling';
     }
-    // EMPTY hücreler için ekstra bir stil gerekmez
   
     return (
       <div 
@@ -160,12 +156,11 @@ function App() {
     );
   }
   
-
   return (
     <div className="App">
       <h1>Connect Four</h1>
       <br />
-      {winner && <h2>Winner: {winner}</h2>}
+      {winner && <h2>Winner: {winner === PLAYER ? username : 'AI'}</h2>}
       <div className="board" style={{ boxShadow: `0px 0px 150px ${currentPlayer === PLAYER ? userColor : computerColor}` }}>
         {board.map((row, rowIndex) => row.map((cell, columnIndex) => renderCell(cell, rowIndex, columnIndex)))}
       </div>

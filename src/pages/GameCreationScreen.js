@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const GameCreation = () => {
   const [username, setUsername] = useState('');
   const [userColor, setUserColor] = useState('#ffffff'); // Varsayılan renk beyaz
   const [computerColor, setComputerColor] = useState('#000000'); // Varsayılan renk siyah
@@ -15,13 +15,13 @@ const Login = () => {
     localStorage.setItem('computerColor', computerColor);
   }, [username, userColor, computerColor]);
 
-  const handleLogin = () => {
-    navigate('/game-option');
+  const handleGameCreation = () => {
+    navigate('/ListofGames');
   };
 
   return (
     <div>
-      <h2>Login</h2>
+      <h2>GameCreation</h2>
       <label>
         Select your color:
         <input
@@ -47,9 +47,9 @@ const Login = () => {
         onChange={(e) => setUsername(e.target.value)}
       />
       <br />
-      <button onClick={handleLogin}>Login</button>
+      <button onClick={handleGameCreation}>GameCreation</button>
     </div>
   );
 };
 
-export default Login;
+export default GameCreation;
