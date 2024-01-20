@@ -1,77 +1,54 @@
-/* src/css/GamePage.css */
-.game-container {
+.App {
   text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-}
-
-.board-container {
-  background-color: hsl(210, 29%, 24%);
-  width: 100%;
-  border-radius: 10px;
-  box-shadow: 5px 10px rgba(241, 9, 9, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin-top: 100px;
 }
 
 .board {
   display: grid;
-  grid-template-columns: repeat(6, 60px); /* 7 sütun, her bir hücrenin genişliği */
-  grid-gap: 10px; /* Hücreler arasındaki boşluk */
-  justify-content: center;
-  margin: 5px;
- transform: rotate(90deg) translate3d(30px , -30px, 0px);
-}
-
-@keyframes dropPieceAnimation {
-  0% {
-    transform: translateX(-400px);
-  }
-  100% {
-    transform: translateY(0);
-  }
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  margin: 20px auto;
+  max-width: 790px;
+  background-color: #8d8282;
+  border-radius: 20px;
+  padding: 20px;
 }
 
 .cell {
-  width: 60px; /* Hücre genişliği */
-  height: 60px; /* Hücre yüksekliği */
-  border: 2px solid #FFFFFF; /* Hücre kenarlık rengi */
-  background-color: #FFFFFF; /* Hücre arka plan rengi */
-  border-radius: 50%; /* Hücre yuvarlaklığı */
-  align-items: center;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #ddd;
+  display: flex;
   justify-content: center;
-  margin: 10px;
-
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.piece {
-  width: 46px; /* Taş genişliği */
-  height: 46px; /* Taş yüksekliği */
-  border-radius: 50%; /* Taş yuvarlaklığı */
-  position: static;
-  animation: dropPieceAnimation 1.0s ease forwards;
-
+.cell.empty:hover {
+  background-color: #ccc;
 }
 
-.player, .computer {
-  top: 7px; /* Taşların hücre içindeki üst boşluğu */
-  left: 7px; /* Taşların hücre içindeki sol boşluğu */
+.cell.player {
+  background-color: blue;
 }
 
-.player {
-  background-color: #e74c3c; /* Oyuncu taşı rengi */
+.cell.ai {
+  background-color: rgb(66, 44, 44);
 }
 
-.computer {
-  background-color: #f1c40f; /* Bilgisayar taşı rengi */
+@keyframes fallAnimation {
+  0% {
+    transform: translateY(-700px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
-.winner {
-  font-size: 24px;
-  color: green;
-  margin: 20px 0;
+.cell.falling {
+  animation: fallAnimation 0.6s ease-out;
 }
-

@@ -7,17 +7,7 @@ const Login = () => {
   const [computerColor, setComputerColor] = useState('#000000'); // Varsayılan renk siyah
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const savedUsername = localStorage.getItem('username') || '';
-    const savedUserColor = localStorage.getItem('userColor') || '#ffffff';
-    const savedComputerColor = localStorage.getItem('computerColor') || '#000000';
-
-    setUsername(savedUsername);
-    setUserColor(savedUserColor);
-    setComputerColor(savedComputerColor);
-
-    console.log(`LocalStorage - Username: ${savedUsername}, User Color: ${savedUserColor}, Computer Color: ${savedComputerColor}`);
-  }, []);
+  
 
   useEffect(() => {
     localStorage.setItem('username', username);

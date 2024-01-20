@@ -1,5 +1,6 @@
 .App {
     text-align: center;
+    margin-top: 100px;
   }
   
   .board {
@@ -34,12 +35,12 @@
   }
   
   .cell.ai {
-    background-color: red;
+    background-color: rgb(66, 44, 44);
   }
   
   @keyframes fallAnimation {
     0% {
-      transform: translateY(-500px);
+      transform: translateY(-700px);
       opacity: 0;
     }
     100% {
@@ -49,6 +50,6 @@
   }
   
   .cell.falling {
-    animation: fallAnimation 0.5s ease-out;
+    animation: fallAnimation 0.6s ease-out;
   }
   
