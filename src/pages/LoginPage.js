@@ -3,64 +3,35 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [username, setUsername] = useState('');
-  const [userColor, setUserColor] = useState('');
-  const [computerColor, setComputerColor] = useState('');
-  const [savedUsername, setSavedUsername] = useState('');
-  const [rememberUser, setRememberUser] = useState(false);
+  const [userColor, setUserColor] = useState('#ffffff'); // Varsayılan renk beyaz
+  const [computerColor, setComputerColor] = useState('#000000'); // Varsayılan renk siyah
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Daha önce kaydedilmiş bir kullanıcı adı ve renk var mı kontrol et
-    const savedUsernameFromStorage = localStorage.getItem('username');
-    const savedUserColorFromStorage = localStorage.getItem('userColor');
-    const savedComputerColorFromStorage = localStorage.getItem('computerColor');
+    const savedUsername = localStorage.getItem('username') || '';
+    const savedUserColor = localStorage.getItem('userColor') || '#ffffff';
+    const savedComputerColor = localStorage.getItem('computerColor') || '#000000';
 
-    if (savedUsernameFromStorage) {
-      setSavedUsername(savedUsernameFromStorage);
-    }
+    setUsername(savedUsername);
+    setUserColor(savedUserColor);
+    setComputerColor(savedComputerColor);
 
-    if (savedUserColorFromStorage) {
-      setUserColor(savedUserColorFromStorage);
-    }
-
-    if (savedComputerColorFromStorage) {
-      setComputerColor(savedComputerColorFromStorage);
-    }
+    console.log(`LocalStorage - Username: ${savedUsername}, User Color: ${savedUserColor}, Computer Color: ${savedComputerColor}`);
   }, []);
 
-  const handleLogin = () => {
-    // Eğer daha önce isim girilmişse ve şu anki isimle aynı değilse uyarı ver
-    if (savedUsername && username !== savedUsername && !rememberUser) {
-      const confirmMessage = "You've played the game before with a different username. If you continue, your previous progress will be lost. Do you want to continue?";
-      if (!window.confirm(confirmMessage)) {
-        return;
-      }
-    }
-
-    // Kullanıcı ve bilgisayarın renklerini kaydet
+  useEffect(() => {
     localStorage.setItem('username', username);
     localStorage.setItem('userColor', userColor);
     localStorage.setItem('computerColor', computerColor);
+  }, [username, userColor, computerColor]);
 
-    // Kullanıcıyı karşıla ve console'a yazdır
-    console.log(`Welcome, ${username}! Your color is ${userColor}. Computer's color is ${computerColor}.`);
-
-    // Eğer kullanıcı hatırlanması istiyorsa, kullanıcı bilgilerini state'te sakla
-    if (rememberUser) {
-      setSavedUsername(username);
-    } else {
-      // Hatırlanmıyorsa, önceki kullanıcı bilgilerini temizle
-      setSavedUsername('');
-    }
-
-    // Giriş başarılıysa GameOption sayfasına yönlendir
+  const handleLogin = () => {
     navigate('/game-option');
   };
 
   return (
     <div>
       <h2>Login</h2>
-      {savedUsername && <p>Welcome back, {savedUsername}!</p>}
       <label>
         Select your color:
         <input
@@ -85,15 +56,6 @@ const Login = () => {
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
-      <br />
-      <label>
-        Remember me:
-        <input
-          type="checkbox"
-          checked={rememberUser}
-          onChange={() => setRememberUser(!rememberUser)}
-        />
-      </label>
       <br />
       <button onClick={handleLogin}>Login</button>
     </div>
