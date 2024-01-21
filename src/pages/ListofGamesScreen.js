@@ -8,10 +8,13 @@ import "../css/ListofGame.css";
 
 const ListofGamesScreen = () => {
   const [winnersCount, setWinnersCount] = useState({});
-  const [boxShadowColor, setBoxShadowColor] = useState('rgb(66, 81, 215)'); // Örnek renk
+  const [gameName, setGameName] = useState(''); // GameName için state
 
   useEffect(() => {
     const storedWinners = JSON.parse(localStorage.getItem('winners')) || [];
+    const storedGameName = localStorage.getItem('gameName'); // Yerel depolamadan GameName al
+    setGameName(storedGameName || 'Unknown Game'); // Eğer GameName yoksa varsayılan değer
+
     const count = {};
     storedWinners.forEach(winner => {
       count[winner] = (count[winner] || 0) + 1;
@@ -51,13 +54,8 @@ const ListofGamesScreen = () => {
     }
   };
 
-  // Dinamik boxShadow stilini uygulamak için
-  const dynamicBoxShadow = {
-    boxShadow: `${boxShadowColor} 0px 0px 700px`
-  };
-
   return (
-    <div className="scoreboard" style={dynamicBoxShadow}>
+    <div className="scoreboard">
       <div className="header">
         <h1>List Of Games</h1>
       </div>
@@ -65,6 +63,7 @@ const ListofGamesScreen = () => {
       <table>
         <thead>
           <tr>
+            <th>GameName</th>
             <th>Player</th>
             <th>Wins</th>
           </tr>
@@ -72,9 +71,9 @@ const ListofGamesScreen = () => {
         <tbody>
           {Object.entries(winnersCount)
             .sort((a, b) => b[1] - a[1])
-            .slice(0, 5)
             .map(([winner, count], index) => (
               <tr key={index}>
+                <td>{gameName}</td> {/* GameName'i burada göster */}
                 <td>{winner}</td>
                 <td>{count}</td>
               </tr>

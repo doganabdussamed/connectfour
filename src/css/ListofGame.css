@@ -1,91 +1,97 @@
 /* ListofGame.css */
 body {
-    background-color: #070505; /* Arka plan rengini istediğiniz renk koduyla değiştirin */
+  background-color: #070505; /* Arka plan rengini istediğiniz renk koduyla değiştirin */
 }
 
 .scoreboard {
-    background: #333;
-    width: 50%;
-    margin: 6% auto;
-    border-radius: 15px;
-    padding: 20px;
-    box-sizing: border-box;
-    color: hsl(0, 0%, 100%);
-    box-shadow: rgb(66, 81, 215) 0px 0px 700px;
-  }
-
-  
-  .header h1 {
-    text-align: center;
-    font-size: 1.5em;
-    letter-spacing: 3px;
-  }
-  
-  table {
-    width: 100%;
-    margin-top: 20px;
-    border-collapse: collapse;
-  }
-  
-  table thead {
-    background-color: #222;
-  }
-  
-  table thead th {
-    padding: 10px;
-    border-bottom: solid 2% #444;
-  }
-  
-  table tbody td {
-    padding: 10px;
-    border-bottom: 1px solid #444;
-    text-align: center;
-  }
-  
-  table tbody tr:last-child td {
-    border-bottom: none;
-  }
-  
-  .button {
-    display: block;
-    width: 200px; /* Sabit genişlik */
-    background-color: #007bff; /* Mavi arka plan rengi */
-    color: white; /* Beyaz yazı rengi */
-    border: none; /* Kenarlık kaldır */
-    border-radius: 5px; /* Kenar yuvarlaklığı */
-    transition: background-color 0.2s, transform 0.2s; /* Geçiş efektleri */
-    text-align: center; /* Metni ortala */
-    text-decoration: none; /* Link alt çizgisini kaldır */
-    font-weight: bold; /* Kalın yazı tipi */
-    font-size: medium;
+  background: #333;
+  width: 50%;
+  margin: 6% auto;
+  border-radius: 15px;
+  padding: 20px;
+  box-sizing: border-box;
+  color: hsl(0, 0%, 100%);
+  box-shadow: rgb(66, 81, 215) 0px 0px 700px;
 }
-  
-  .button:hover {
-    background-color: #0056b3; /* Hover rengi */
-    transform: scale(1.05); /* Hafifçe büyüt */
-  }
-  
-  .button-reset {
-    background-color: #ef5350; /* Kırmızı arka plan rengi */
-    float: right    ;
-    
-  }
-  
-  .button-start {
-    background-color: #007bff; /* Mavi arka plan rengi */
-    float: left;
-  }
-  .button-start:hover {
-    background-color: #46c442; /* Hover rengi */
-  }
 
-  .button-reset:hover {
-    background-color: #c49742; /* Hover rengi */
-  }
-  
-  
-  a {
-    text-decoration: none;
-    color: white;
-  }
-  
+.header h1 {
+  text-align: center;
+  font-size: 1.5em;
+  letter-spacing: 3px;
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+table thead {
+  background-color: #222;
+}
+
+table thead th {
+  padding: 10px;
+  border-bottom: solid 2% #444;
+}
+
+table tbody td {
+  padding: 10px;
+  border-bottom: 1px solid #444;
+  text-align: center;
+}
+
+table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+
+table tbody td:nth-child(2) {
+  text-align: left;
+}
+
+table tbody td:nth-child(3) {
+  text-align: right;
+}
+
+.button {
+  display: block;
+  width: 200px; /* Sabit genişlik */
+  background-color: #007bff; /* Mavi arka plan rengi */
+  color: white; /* Beyaz yazı rengi */
+  border: none; /* Kenarlık kaldır */
+  border-radius: 5px; /* Kenar yuvarlaklığı */
+  transition: background-color 0.2s, transform 0.2s; /* Geçiş efektleri */
+  text-align: center; /* Metni ortala */
+  text-decoration: none; /* Link alt çizgisini kaldır */
+  font-weight: bold; /* Kalın yazı tipi */
+  font-size: medium;
+}
+
+.button:hover {
+  background-color: #0056b3; /* Hover rengi */
+  transform: scale(1.05); /* Hafifçe büyüt */
+}
+
+.button-reset {
+  background-color: #ef5350; /* Kırmızı arka plan rengi */
+  float: right;
+}
+
+.button-start {
+  background-color: #007bff; /* Mavi arka plan rengi */
+  float: left;
+}
+
+.button-start:hover {
+  background-color: #46c442; /* Hover rengi */
+}
+
+.button-reset:hover {
+  background-color: #c49742; /* Hover rengi */
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}

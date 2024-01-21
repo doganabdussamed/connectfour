@@ -1,24 +1,52 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Lottie from 'react-lottie';
-import leftAnimationData from '../animations/Animation - 1705746382104.json'; // Sol animasyon verisi
-import rightAnimationData from '../animations/animasyon8.json'; // Sağ animasyon verisi
-import "../css/GameCreation.css"; // CSS dosyası dahil edildi
+import leftAnimationData from '../animations/Animation - 1705746382104.json';
+import rightAnimationData from '../animations/animasyon8.json';
+import "../css/GameCreation.css";
+import toast from 'react-hot-toast';
 
 const GameCreation = () => {
   const [username, setUsername] = useState('');
-  const [userColor, setUserColor] = useState('#ffffff'); // Varsayılan renk beyaz
-  const [computerColor, setComputerColor] = useState('#000000'); // Varsayılan renk siyah
+  const [gameName, setGameName] = useState('');
+  const [userColor, setUserColor] = useState('#ffffff');
+  const [computerColor, setComputerColor] = useState('#000000');
   const navigate = useNavigate();
 
   useEffect(() => {
+    const storedUsernames = JSON.parse(localStorage.getItem('usernames')) || [];
+    const storedGameNames = JSON.parse(localStorage.getItem('gameNames')) || [];
+
+    setUsername(storedUsernames[storedUsernames.length - 1] || '');
+    setGameName(storedGameNames[storedGameNames.length - 1] || '');
+  }, []);
+
+  useEffect(() => {
     localStorage.setItem('username', username);
+    localStorage.setItem('gameName', gameName);
     localStorage.setItem('userColor', userColor);
     localStorage.setItem('computerColor', computerColor);
-  }, [username, userColor, computerColor]);
+
+    const storedUsernames = JSON.parse(localStorage.getItem('usernames')) || [];
+    const storedGameNames = JSON.parse(localStorage.getItem('gameNames')) || [];
+
+    storedUsernames.push(username);
+    storedGameNames.push(gameName);
+
+    const last5Usernames = storedUsernames.slice(-5);
+    const last5GameNames = storedGameNames.slice(-5);
+
+    localStorage.setItem('usernames', JSON.stringify(last5Usernames));
+    localStorage.setItem('gameNames', JSON.stringify(last5GameNames));
+  }, [username, gameName, userColor, computerColor]);
 
   const handleGameCreation = () => {
-    navigate('/ListofGames');
+    if (!username) {
+      toast.error('Kullanıcı adı girilmedi. Lütfen bir kullanıcı adı girin.');
+    } else {
+      navigate('/ListofGames');
+    }
   };
 
   const defaultOptionsLeft = {
@@ -40,7 +68,7 @@ const GameCreation = () => {
   };
 
   const dynamicStyle = {
-    boxShadow: `0px 0px 700px ${userColor}`, // Oyuncunun seçtiği renk
+    boxShadow: `0px 0px 700px ${userColor}`,
   };
 
   return (
@@ -49,7 +77,6 @@ const GameCreation = () => {
         <h1>Game Creation</h1>
       </div>
       <div className="form-container">
-        {/* Form elemanları */}
         <label>
           Select your color:
           <input
@@ -76,7 +103,20 @@ const GameCreation = () => {
           onChange={(e) => setUsername(e.target.value)}
         />
         <br />
-        <button onClick={handleGameCreation} className="button button-create">Create Game</button>
+        <input
+          type="text"
+          placeholder="Enter game name"
+          className="game-name-input"
+          value={gameName}
+          onChange={(e) => setGameName(e.target.value)}
+        />
+        <br />
+        <button 
+          onClick={handleGameCreation} 
+          className="button button-create"
+        >
+          Create Game
+        </button>
       </div>
       <div style={{ position: 'absolute', left: '90px', top: '50%', transform: 'translateY(-1%)' }}>
         <Lottie options={defaultOptionsLeft} height={500} width={350} />

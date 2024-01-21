@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import "../css/GamePage.css";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
 
 const ROWS = 6;
 const COLUMNS = 7;
@@ -14,7 +18,29 @@ function App() {
   const [username, setUsername] = useState('');
   const [userColor, setUserColor] = useState('#ffffff'); // Varsayılan renk beyaz
   const [computerColor, setComputerColor] = useState('#000000'); // Varsayılan renk siyah
+  const [isPaused, setIsPaused] = useState(false); // Oyunun duraklatılıp duraklatılmadığını takip eden state
 
+  // Oyunu duraklatma fonksiyonu
+  const pauseGame = () => {
+    setIsPaused(true);
+  };
+
+  // Dialog'daki butonlara bağlı fonksiyonlar
+  const handleResume = () => {
+    setIsPaused(false);
+  };
+
+  const handleRestart = () => {
+    setIsPaused(false);
+    window.location.href = "/ListofGames";
+  };
+
+  const handleQuit = () => {
+    setIsPaused(false);
+    window.location.href = "/GameCreation";
+    // Çıkış işlemleri
+  };
+  
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
     const storedUserColor = localStorage.getItem('userColor');
@@ -90,6 +116,7 @@ function App() {
             board[row][col] === board[row][col + 2] && 
             board[row][col] === board[row][col + 3]) {
           setWinner(board[row][col]);
+           
           return;
         }
       }
@@ -103,6 +130,7 @@ function App() {
             board[row][col] === board[row + 2][col] &&
             board[row][col] === board[row + 3][col]) {
           setWinner(board[row][col]);
+          setIsPaused(true);
           return;
         }
       }
@@ -116,6 +144,8 @@ function App() {
             board[row][col] === board[row + 2][col + 2] &&
             board[row][col] === board[row + 3][col + 3]) {
           setWinner(board[row][col]);
+          setIsPaused(true);
+
           return;
         }
       }
@@ -129,6 +159,8 @@ function App() {
             board[row][col] === board[row - 2][col + 2] &&
             board[row][col] === board[row - 3][col + 3]) {
           setWinner(board[row][col]);
+          setIsPaused(true);
+
           return;
         }
       }
@@ -166,10 +198,24 @@ function App() {
       <div className="board" style={{ boxShadow: `0px 0px 150px ${currentPlayer === PLAYER ? userColor : computerColor}` }}>
         {board.map((row, rowIndex) => row.map((cell, columnIndex) => renderCell(cell, rowIndex, columnIndex)))}
       </div>
-    <div>
-      <button onClick={() => window.location.reload()} className="button button-reset">Reset Game</button>
-      
-    </div>
+      <div className="buttonGame" style={{ color: computerColor }}>
+  <button onClick={() => window.location.reload()} className="button button-reset" style={{ backgroundColor: userColor, color: computerColor}}>Reset Game</button>
+</div>
+<button onClick={pauseGame} className="button button-pause" style={{ backgroundColor: userColor, color: computerColor}}>Pause Game</button>
+
+<Dialog open={isPaused} onClose={handleResume}>
+  <DialogContent>
+    <DialogContentText>
+      Game is paused.
+    </DialogContentText>
+  </DialogContent>
+  <DialogActions>
+    <button onClick={handleResume} style={{ backgroundColor: userColor }}>Resume</button>
+    <button onClick={handleQuit} style={{ backgroundColor: computerColor }}>Quit</button>
+    <button onClick={handleRestart} style={{ backgroundColor: userColor }}>Restart</button>
+  </DialogActions>
+</Dialog>
+
 
     </div>
   );

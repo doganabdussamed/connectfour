@@ -15,6 +15,15 @@
     flex-direction: column;
     align-items: center;
   }
+
+  .game-name-input {
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    width: 110px; /* Genişliği belirle */
+    height: 10px; /* Yüksekliği belirle */
+  }
+  
   
   .header h1 {
     text-align: center;
