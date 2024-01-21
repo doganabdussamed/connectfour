@@ -90,7 +90,7 @@ app.get('/', async (req, res) => {
     const run = await openai.beta.threads.runs.create(
         thread.id,
         { 
-            assistant_id: "asst_8s56kdyNl5ZzE11iWFNX1idG",
+            assistant_id: "",
             instructions: null
         }
     );
