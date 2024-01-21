@@ -61,7 +61,7 @@ const data= [
 ]
 
 const openai = new OpenAI({
-    apiKey: "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",
+    apiKey: "",
 });
 
 const waitForCompletion = async (thread_id, run_id) => {
