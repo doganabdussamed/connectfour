@@ -1,6 +1,9 @@
+require('dotenv').config();
+
 const express = require('express');
 const { default: OpenAI } = require('openai');
 const app = express();
+
 const port = 3010;
 
 const data= [
@@ -51,17 +54,17 @@ const data= [
     ],
     [
         "EMPTY",
-        "PLAYER",
         "EMPTY",
         "EMPTY",
-        "AI",
+        "EMPTY",
+        "EMPTY",
         "EMPTY",
         "EMPTY"
     ]
 ]
 
 const openai = new OpenAI({
-    apiKey: "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",
+    apiKey: process.env.OPENAI_API_KEY
 });
 
 const waitForCompletion = async (thread_id, run_id) => {
@@ -90,7 +93,7 @@ app.get('/', async (req, res) => {
     const run = await openai.beta.threads.runs.create(
         thread.id,
         { 
-            assistant_id: "asst_8s56kdyNl5ZzE11iWFNX1idG",
+            assistant_id: process.env.ASSISTANT_ID,
             instructions: null
         }
     );
