@@ -19,7 +19,7 @@ function App() {
   const [userColor, setUserColor] = useState('#ffffff'); // Varsayılan renk beyaz
   const [computerColor, setComputerColor] = useState('#000000'); // Varsayılan renk siyah
   const [isPaused, setIsPaused] = useState(false); // Oyunun duraklatılıp duraklatılmadığını takip eden state
-  const [tablacolor, settablacolor] = useState(localStorage.getItem("tablacolor")); // Varsayılan renk siyah
+  const [tablacolor, settablacolor] = useState(localStorage.getItem("tablaColor")); // Varsayılan renk siyah
   // Oyunu duraklatma fonksiyonu
   const pauseGame = () => {
     setIsPaused(true);
@@ -195,7 +195,7 @@ function App() {
       <br />
       {winner && <h2 style={{color:"white"}}>Winner: {winner === PLAYER ? username : 'AI'}</h2>}
      
-      <div className="board" style={{boxShadow: `0px 0px 150px ${currentPlayer === PLAYER ? userColor : computerColor}`,backgroundColor: tablacolor }}>
+      <div className="board" style={{boxShadow: `0px 0px 150px ${currentPlayer === PLAYER ? userColor : computerColor}`,backgroundColor: tablacolor, }}>
         {board.map((row, rowIndex) => row.map((cell, columnIndex) => renderCell(cell, rowIndex, columnIndex)))}
       </div> 
       <div className="buttonGame" style={{ color: computerColor }}>
