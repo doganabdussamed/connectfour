@@ -5,6 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 
+
 const ROWS = 6;
 const COLUMNS = 7;
 const EMPTY = "EMPTY";
@@ -19,9 +20,8 @@ function App() {
   const [userColor, setUserColor] = useState("#ffffff"); // Varsayılan renk beyaz
   const [computerColor, setComputerColor] = useState("#000000"); // Varsayılan renk siyah
   const [isPaused, setIsPaused] = useState(false); // Oyunun duraklatılıp duraklatılmadığını takip eden state
-  const [tablacolor, settablacolor] = useState(
-    localStorage.getItem("tablaColor")
-  ); // Varsayılan renk siyah
+  const [tablacolor, settablacolor] = useState (localStorage.getItem("tablacolor")); // Varsayılan renk siyah
+
   // Oyunu duraklatma fonksiyonu
   const pauseGame = () => {
     setIsPaused(true);
@@ -42,6 +42,15 @@ function App() {
     window.location.href = "/GameCreation";
     // Çıkış işlemleri
   };
+
+ const resetGame = () => {
+    setBoard(createBoard());
+    setCurrentPlayer(PLAYER);
+    setWinner(null);
+    setIsPaused(false);
+  };
+
+
 
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
@@ -205,6 +214,7 @@ function App() {
       />
     );
   }
+  
 
   return (
     <div className="App">
@@ -233,7 +243,7 @@ function App() {
       </div>
       <div className="buttonGame" style={{ color: computerColor }}>
         <button
-          onClick={() => window.location.reload()}
+          onClick={resetGame}
           className="button button-reset"
           style={{ backgroundColor: userColor, color: computerColor }}
         >
@@ -253,20 +263,20 @@ function App() {
           <DialogContentText>Game is paused.</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <button onClick={handleResume} style={{ backgroundColor: userColor }}>
+          <button onClick={handleResume} style={{ backgroundColor: tablacolor }}>
             Resume
           </button>
           <button
             onClick={handleQuit}
-            style={{ backgroundColor: computerColor }}
+            style={{ backgroundColor: tablacolor }}
           >
-            Quit
+            CreateNeveGame
           </button>
           <button
             onClick={handleRestart}
-            style={{ backgroundColor: userColor }}
+            style={{ backgroundColor: tablacolor }}
           >
-            Restart
+            Scores
           </button>
         </DialogActions>
       </Dialog>
