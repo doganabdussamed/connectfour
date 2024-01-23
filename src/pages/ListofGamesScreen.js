@@ -73,7 +73,7 @@ const ListofGamesScreen = () => {
             .sort((a, b) => b[1] - a[1])
             .map(([winner, count], index) => (
               <tr key={index}>
-                <td>{gameName}</td> {/* GameName'i burada göster */}
+              <td>{gameName[index % gameName.length]}</td> {/* GameName'i burada göster */}
                 <td>{winner}</td>
                 <td>{count}</td>
               </tr>
@@ -83,11 +83,10 @@ const ListofGamesScreen = () => {
       <Link to="/game" className="button button-start">Start Game</Link>
       <button onClick={resetWinners} className="button button-reset">Reset Scores</button>
 
-      <div>
-        <Lottie options={defaultOptionsMain} height={400} width={400} />
-      </div>
-
-      <div style={{ position: 'absolute', left: '90px', top: '50%', transform: 'translateY(-90%)' }}>
+    <div className="animation-container">
+      <Lottie options={defaultOptionsMain} height={400} width={400} />
+    </div>
+      <div style={{ position: 'absolute', left: '90px', top: '50%', transform: 'translateY(-10%)' }}>
         <Lottie options={defaultOptionsLeft} height={300} width={300} />
       </div>
 
