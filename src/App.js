@@ -11,7 +11,6 @@ const App = () => {
     <>
     <Toaster />
     <Router>
-      <TestFuc />
       <Routes>
         <Route path="/" element={<Navigate to="/GameCreation" />} />
         <Route path="/GameCreation" element={<GameCreationScreen />} />
@@ -22,14 +21,5 @@ const App = () => {
     </>
   );
 };
-
-
-const TestFuc = () => {
-
-if (localStorage.getItem('gameName') === null) {
-  window.location.href = "/GameCreation";
-
-}
-}
 
 export default App;

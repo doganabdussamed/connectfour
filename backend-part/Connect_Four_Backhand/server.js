@@ -1,115 +1,80 @@
 require('dotenv').config();
-
+const cors = require('cors');
 const express = require('express');
 const { default: OpenAI } = require('openai');
 const app = express();
-
+app.use(cors());
 const port = 3010;
-
-const data= [
-    [
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY"
-    ],
-    [
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY"
-    ],
-    [
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY"
-    ],
-    [
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY"
-    ],
-    [
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY"
-    ],
-    [
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY",
-        "EMPTY"
-    ]
-]
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
 
-const waitForCompletion = async (thread_id, run_id) => {
-    let run = await openai.beta.threads.runs.retrieve(thread_id, run_id);
-    while (run.status !== 'completed') {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        console.log('Waiting for completion...');
-        run = await openai.beta.threads.runs.retrieve(thread_id, run_id);
-        console.log(run);
-    }
-    return run;
-};
-
 app.use(express.json());
 
-app.get('/', async (req, res) => {
-    const thread = await openai.beta.threads.create(); 
-    console.log(thread.id);
-    const message = await openai.beta.threads.messages.create(
-        thread.id,
-        {
-            role: "user",
-            content: JSON.stringify(data) // Convert the data to JSON format and send to OpenAI
-        }
-    );
-    const run = await openai.beta.threads.runs.create(
-        thread.id,
-        { 
-            assistant_id: process.env.ASSISTANT_ID,
-            instructions: null
-        }
-    );
-    const result = await waitForCompletion(thread.id, run.id);
+let threadId = null;
 
-    const messages = await openai.beta.threads.messages.list(thread.id);
-    messages.data.forEach(message => {
-        console.log("--------------------------------------------");
-        console.log(message.content[0].text.value);
-        console.log("--------------------------------------------");
+async function createThread() {
+    try {
+        const thread = await openai.beta.threads.create();
+        threadId = thread.id;
+        console.log('Thread ID:', thread.id);
+    } catch (error) {
+        console.error('Error creating thread:', error);
+    }
+}
+
+createThread();
+
+async function waitForRunCompletion(threadId, runId) {
+    let run = await openai.beta.threads.runs.retrieve(threadId, runId);
+    while (run.status !== 'completed') {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        run = await openai.beta.threads.runs.retrieve(threadId, runId);
+    }
+    return run;
+}
+
+async function communicateWithGPT(message) {
+    if (!threadId) {
+        await createThread();
+    }
+
+    await openai.beta.threads.messages.create(threadId, {
+        role: 'user',
+        content: message,
     });
 
-    // Send the response from OpenAI as the HTTP response
-    res.json(result); // Here, sending the result as a JSON response
+    const run = await openai.beta.threads.runs.create(threadId, {
+        assistant_id: process.env.ASSISTANT_ID,
+    });
+
+    await waitForRunCompletion(threadId, run.id);
+
+    const messages = await openai.beta.threads.messages.list(threadId);
+    const assistantMessages = messages.data.filter(msg => msg.role === 'assistant');
+    const relevantMessage = assistantMessages.find(msg => msg.run_id === run.id);
+
+    if (relevantMessage && relevantMessage.content && relevantMessage.content.length > 0) {
+        return relevantMessage.content[0].text.value || '';
+    } else {
+        throw new Error('No valid response from assistant');
+    }
+}
+
+app.post('/ai-move', async (req, res) => {
+    const { board } = req.body;
+    const message = JSON.stringify(board);
+    try {
+        const gptResponse = await communicateWithGPT(message);
+        const gptBoard = JSON.parse(gptResponse);
+        res.json(gptBoard);
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).send("Internal Server Error");
+    }
 });
 
 app.listen(port, () => {
-    console.log(`Server running on port ${port}.`);
+    console.log(`Server is running on port ${port}`);
 });
