@@ -12,6 +12,7 @@ const GameCreation = () => {
   const [gameName, setGameName] = useState('');
   const [userColor, setUserColor] = useState('#ffffff');
   const [computerColor, setComputerColor] = useState('#000000');
+  const [tablacolor, settablacolor] = useState("#000000"); // Varsayılan renk siyah
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,9 +28,11 @@ const GameCreation = () => {
     localStorage.setItem('gameName', gameName);
     localStorage.setItem('userColor', userColor);
     localStorage.setItem('computerColor', computerColor);
+    localStorage.setItem("tablacolor", tablacolor);
 
     const storedUsernames = JSON.parse(localStorage.getItem('usernames')) || [];
     const storedGameNames = JSON.parse(localStorage.getItem('gameNames')) || [];
+
 
     storedUsernames.push(username);
     storedGameNames.push(gameName);
@@ -39,7 +42,7 @@ const GameCreation = () => {
 
     localStorage.setItem('usernames', JSON.stringify(last5Usernames));
     localStorage.setItem('gameNames', JSON.stringify(last5GameNames));
-  }, [username, gameName, userColor, computerColor]);
+  }, [username, gameName, userColor, computerColor, tablacolor]);
 
   const handleGameCreation = () => {
     if (!username) {
@@ -69,6 +72,7 @@ const GameCreation = () => {
 
   const dynamicStyle = {
     boxShadow: `0px 0px 700px ${userColor}`,
+    background: tablacolor, // tablacolor'ı dynamicStyle'a ekle
   };
 
   return (
@@ -87,13 +91,24 @@ const GameCreation = () => {
         </label>
         <br />
         <label>
-          Select computer's color:
+          Select AI color:
           <input
             type="color"
             value={computerColor}
             onChange={(e) => setComputerColor(e.target.value)}
           />
         </label>
+      <br />
+
+      <label>
+          Game Board color:
+          <input
+            type="color"
+            value={tablacolor}
+            onChange={(e) => settablacolor(e.target.value)}
+          />
+        </label>
+
         <br />
         <input
           type="text"
