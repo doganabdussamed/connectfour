@@ -1,6 +1,5 @@
 /* GameCreation.css */
 .game-creation-container {
-    background: #333;
     width: 50%;
     margin: 15% auto;
     border-radius: 15px;
@@ -8,6 +7,7 @@
     box-sizing: border-box;
     color: hsl(0, 0%, 100%);
     box-shadow: rgb(66, 81, 215) 0px 0px 700px;
+
   }
   
   .form-container {
