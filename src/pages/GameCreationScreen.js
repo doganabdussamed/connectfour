@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Lottie from 'react-lottie';
@@ -8,13 +7,15 @@ import "../css/GameCreation.css";
 import toast from 'react-hot-toast';
 
 const GameCreation = () => {
+  // State variables
   const [username, setUsername] = useState('');
   const [gameName, setGameName] = useState('');
   const [userColor, setUserColor] = useState('#ffffff');
   const [computerColor, setComputerColor] = useState('#000000');
-  const [tablacolor, settablacolor] = useState("#000000"); // Varsayılan renk siyah
+  const [tablacolor, settablacolor] = useState("#000000"); // Default color is black
   const navigate = useNavigate();
 
+  // useEffect to load last used username and game name from localStorage
   useEffect(() => {
     const storedUsernames = JSON.parse(localStorage.getItem('usernames')) || [];
     const storedGameNames = JSON.parse(localStorage.getItem('gameNames')) || [];
@@ -23,6 +24,7 @@ const GameCreation = () => {
     setGameName(storedGameNames[storedGameNames.length - 1] || '');
   }, []);
 
+  // useEffect to update localStorage with user preferences
   useEffect(() => {
     localStorage.setItem('username', username);
     localStorage.setItem('gameName', gameName);
@@ -30,9 +32,9 @@ const GameCreation = () => {
     localStorage.setItem('computerColor', computerColor);
     localStorage.setItem("tablacolor", tablacolor);
 
+    // Update last 5 usernames and game names
     const storedUsernames = JSON.parse(localStorage.getItem('usernames')) || [];
     const storedGameNames = JSON.parse(localStorage.getItem('gameNames')) || [];
-
 
     storedUsernames.push(username);
     storedGameNames.push(gameName);
@@ -44,14 +46,17 @@ const GameCreation = () => {
     localStorage.setItem('gameNames', JSON.stringify(last5GameNames));
   }, [username, gameName, userColor, computerColor, tablacolor]);
 
+  // Function to handle game creation
   const handleGameCreation = () => {
     if (!username) {
-      toast.error('Kullanıcı adı girilmedi. Lütfen bir kullanıcı adı girin.');
+      toast.error('Username not entered. Please enter a username.');
     } else {
+      // Navigate to the ListofGames screen
       navigate('/ListofGames');
     }
   };
 
+  // Animation options for the left Lottie animation
   const defaultOptionsLeft = {
     loop: true,
     autoplay: true,
@@ -61,6 +66,7 @@ const GameCreation = () => {
     }
   };
 
+  // Animation options for the right Lottie animation
   const defaultOptionsRight = {
     loop: true,
     autoplay: true,
@@ -70,9 +76,10 @@ const GameCreation = () => {
     }
   };
 
+  // Dynamic styles based on userColor and tablacolor
   const dynamicStyle = {
     boxShadow: `0px 0px 700px ${userColor}`,
-    background: tablacolor, // tablacolor'ı dynamicStyle'a ekle
+    background: tablacolor,
   };
 
   return (
@@ -81,6 +88,7 @@ const GameCreation = () => {
         <h1>Game Creation</h1>
       </div>
       <div className="form-container">
+        {/* Input for selecting user color */}
         <label>
           Select your color:
           <input
@@ -90,6 +98,7 @@ const GameCreation = () => {
           />
         </label>
         <br />
+        {/* Input for selecting AI color */}
         <label>
           Select AI color:
           <input
@@ -98,9 +107,9 @@ const GameCreation = () => {
             onChange={(e) => setComputerColor(e.target.value)}
           />
         </label>
-      <br />
-
-      <label>
+        <br />
+        {/* Input for selecting game board color */}
+        <label>
           Game Board color:
           <input
             type="color"
@@ -108,8 +117,8 @@ const GameCreation = () => {
             onChange={(e) => settablacolor(e.target.value)}
           />
         </label>
-
         <br />
+        {/* Input for entering username */}
         <input
           type="text"
           placeholder="Enter your username"
@@ -118,6 +127,7 @@ const GameCreation = () => {
           onChange={(e) => setUsername(e.target.value)}
         />
         <br />
+        {/* Input for entering game name */}
         <input
           type="text"
           placeholder="Enter game name"
@@ -126,6 +136,7 @@ const GameCreation = () => {
           onChange={(e) => setGameName(e.target.value)}
         />
         <br />
+        {/* Button to create the game */}
         <button 
           onClick={handleGameCreation} 
           className="button button-create"
@@ -133,9 +144,11 @@ const GameCreation = () => {
           Create Game
         </button>
       </div>
+      {/* Left Lottie animation */}
       <div style={{ position: 'absolute', left: '90px', top: '50%', transform: 'translateY(-1%)' }}>
         <Lottie options={defaultOptionsLeft} height={500} width={350} />
       </div>
+      {/* Right Lottie animation */}
       <div style={{ position: 'absolute', right: '70px', top: '50%', transform: 'translateY(-99%)' }}>
         <Lottie options={defaultOptionsRight} height={300} width={300} />
       </div>

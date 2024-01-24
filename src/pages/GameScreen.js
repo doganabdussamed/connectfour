@@ -5,7 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 
-
+// Constants for the game board
 const ROWS = 6;
 const COLUMNS = 7;
 const EMPTY = "EMPTY";
@@ -13,22 +13,24 @@ const PLAYER = "PLAYER";
 const AI = "AI";
 
 function App() {
+  // State variables
   const [board, setBoard] = useState(createBoard());
   const [currentPlayer, setCurrentPlayer] = useState(PLAYER);
   const [winner, setWinner] = useState(null);
   const [username, setUsername] = useState("");
-  const [userColor, setUserColor] = useState("#ffffff"); // Varsayılan renk beyaz
-  const [computerColor, setComputerColor] = useState("#000000"); // Varsayılan renk siyah
-  const [isPaused, setIsPaused] = useState(false); // Oyunun duraklatılıp duraklatılmadığını takip eden state
-  const [tablacolor, settablacolor] = useState (localStorage.getItem("tablacolor")); // Varsayılan renk siyah
+  const [userColor, setUserColor] = useState("#ffffff"); // Default color is white
+  const [computerColor, setComputerColor] = useState("#000000"); // Default color is black
+  const [isPaused, setIsPaused] = useState(false); // State to track if the game is paused
+  const [tablacolor, setTablacolor] = useState(localStorage.getItem("tablacolor")); // Default color is black
   const [gameHistory, setGameHistory] = useState(JSON.parse(localStorage.getItem("gameHistory") || "[]"));
-  const [gamename, setGameName ] = useState(localStorage.getItem("gameName") ||null); // Oyun geçmişini tutan state
-  // Oyunu duraklatma fonksiyonu
+  const [gamename, setGameName] = useState(localStorage.getItem("gameName") || null); // State to store game history
+
+  // Function to pause the game
   const pauseGame = () => {
     setIsPaused(true);
   };
 
-  // Dialog'daki butonlara bağlı fonksiyonlar
+  // Functions linked to buttons in the Dialog
   const handleResume = () => {
     setIsPaused(false);
   };
@@ -41,18 +43,18 @@ function App() {
   const handleQuit = () => {
     setIsPaused(false);
     window.location.href = "/GameCreation";
-    // Çıkış işlemleri
+    // Exit procedures
   };
 
- const resetGame = () => {
+  // Function to reset the game state
+  const resetGame = () => {
     setBoard(createBoard());
     setCurrentPlayer(PLAYER);
     setWinner(null);
     setIsPaused(false);
   };
 
-
-
+  // useEffect to fetch user preferences from localStorage on component mount
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
     const storedUserColor = localStorage.getItem("userColor");
@@ -63,6 +65,7 @@ function App() {
     if (storedComputerColor) setComputerColor(storedComputerColor);
   }, []);
 
+  // useEffect to update game history and winners on game completion
   useEffect(() => {
     if (winner) {
       const winnerName = winner === PLAYER ? username : "AI";
@@ -70,17 +73,20 @@ function App() {
       winners.push(winnerName);
       localStorage.setItem("winners", JSON.stringify(winners));
 
-      console.log("oyun bitdi");
-      gameHistory.push({username: username, winner: winnerName ,gamename:gamename});
+      // Update game history
+      gameHistory.push({ username: username, winner: winnerName, gamename: gamename });
       localStorage.setItem("gameHistory", JSON.stringify(gameHistory));
     }
   }, [winner, username]);
 
+  // Function to create an initial game board
   function createBoard() {
     return Array(ROWS)
       .fill(null)
       .map(() => Array(COLUMNS).fill(EMPTY));
   }
+
+  // Function to place a disc in a specific column
   function placeDisc(board, column, player) {
     const newBoard = [...board];
     for (let row = ROWS - 1; row >= 0; row--) {
@@ -92,6 +98,7 @@ function App() {
     return newBoard;
   }
 
+  // Function to handle player's move
   function dropDisc(column) {
     if (winner || board[0][column] !== EMPTY || currentPlayer !== PLAYER)
       return;
@@ -106,6 +113,7 @@ function App() {
     }
   }
 
+  // Function to simulate AI's move
   function aiMove(currentBoard) {
     console.log("Sending board to server for AI move:", currentBoard);
     fetch("http://localhost:3010/ai-move", {
@@ -125,8 +133,10 @@ function App() {
         setCurrentPlayer(PLAYER);
       });
   }
+
+  // Function to check if there is a winner after each move
   function checkWinner(board) {
-    // Yatay kontrol
+    // Horizontal check
     for (let row = 0; row < ROWS; row++) {
       for (let col = 0; col < COLUMNS - 3; col++) {
         if (
@@ -136,13 +146,12 @@ function App() {
           board[row][col] === board[row][col + 3]
         ) {
           setWinner(board[row][col]);
-
           return;
         }
       }
     }
 
-    // Dikey kontrol
+    // Vertical check
     for (let col = 0; col < COLUMNS; col++) {
       for (let row = 0; row < ROWS - 3; row++) {
         if (
@@ -158,7 +167,7 @@ function App() {
       }
     }
 
-    // Çapraz kontrol (sağ üstten sol alta)
+    // Diagonal check (from top-right to bottom-left)
     for (let row = 0; row < ROWS - 3; row++) {
       for (let col = 0; col < COLUMNS - 3; col++) {
         if (
@@ -169,13 +178,12 @@ function App() {
         ) {
           setWinner(board[row][col]);
           setIsPaused(true);
-
           return;
         }
       }
     }
 
-    // Çapraz kontrol (sol üstten sağ alta)
+    // Diagonal check (from top-left to bottom-right)
     for (let row = 3; row < ROWS; row++) {
       for (let col = 0; col < COLUMNS - 3; col++) {
         if (
@@ -186,13 +194,13 @@ function App() {
         ) {
           setWinner(board[row][col]);
           setIsPaused(true);
-
           return;
         }
       }
     }
   }
 
+  // Function to render each cell in the game board
   function renderCell(cell, rowIndex, columnIndex) {
     let cellClass =
       cell === EMPTY
@@ -219,7 +227,6 @@ function App() {
       />
     );
   }
-  
 
   return (
     <div className="App">
@@ -275,7 +282,7 @@ function App() {
             onClick={handleQuit}
             style={{ backgroundColor: tablacolor }}
           >
-            CreateNeveGame
+            Create New Game
           </button>
           <button
             onClick={handleRestart}
