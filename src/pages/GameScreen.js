@@ -21,7 +21,8 @@ function App() {
   const [computerColor, setComputerColor] = useState("#000000"); // Varsayılan renk siyah
   const [isPaused, setIsPaused] = useState(false); // Oyunun duraklatılıp duraklatılmadığını takip eden state
   const [tablacolor, settablacolor] = useState (localStorage.getItem("tablacolor")); // Varsayılan renk siyah
-
+  const [gameHistory, setGameHistory] = useState(JSON.parse(localStorage.getItem("gameHistory") || "[]"));
+  const [gamename, setGameName ] = useState(localStorage.getItem("gameName") ||null); // Oyun geçmişini tutan state
   // Oyunu duraklatma fonksiyonu
   const pauseGame = () => {
     setIsPaused(true);
@@ -68,6 +69,10 @@ function App() {
       const winners = JSON.parse(localStorage.getItem("winners")) || [];
       winners.push(winnerName);
       localStorage.setItem("winners", JSON.stringify(winners));
+
+      console.log("oyun bitdi");
+      gameHistory.push({username: username, winner: winnerName ,gamename:gamename});
+      localStorage.setItem("gameHistory", JSON.stringify(gameHistory));
     }
   }, [winner, username]);
 

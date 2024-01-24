@@ -9,6 +9,7 @@ import "../css/ListofGame.css";
 const ListofGamesScreen = () => {
   const [winnersCount, setWinnersCount] = useState({});
   const [gameName, setGameName] = useState(''); // GameName için state
+const [gameHistory, setGameHistory] = useState(JSON.parse(localStorage.getItem("gameHistory") || "[]"));
 
   useEffect(() => {
     const storedWinners = JSON.parse(localStorage.getItem('winners')) || [];
@@ -60,24 +61,25 @@ const ListofGamesScreen = () => {
         <h1>List Of Games</h1>
       </div>
       <h3>Winners</h3>
+      
       <table>
         <thead>
           <tr>
             <th>GameName</th>
             <th>Player</th>
-            <th>Wins</th>
+            <th>Winner</th>
           </tr>
         </thead>
         <tbody>
-          {Object.entries(winnersCount)
-            .sort((a, b) => b[1] - a[1])
-            .map(([winner, count], index) => (
-              <tr key={index}>
-              <td>{gameName[index % gameName.length]}</td> {/* GameName'i burada göster */}
-                <td>{winner}</td>
-                <td>{count}</td>
-              </tr>
-            ))}
+        {gameHistory.reverse().map((game, index) => (
+  // GameHistory'i burada ters sırayla göster
+  <tr key={index}>
+    <td>{game.gamename}</td>
+    <td>{game.username}</td>
+    <td>{game.winner}</td>
+  </tr>
+))}
+
         </tbody>
       </table>
       <Link to="/game" className="button button-start">Start Game</Link>
