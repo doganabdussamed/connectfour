@@ -79,7 +79,7 @@ When the game is over, in case of a tie, the game is repeated. If one of the sid
 
  (npm install)
 
-- Start the server using node src/server.js.
+- Start the server using node connectfour/backend-part/Connect_Four_Backhand/server.js.
 
 (node server.js) 
 
